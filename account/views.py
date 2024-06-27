@@ -14,7 +14,12 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            # way1:
             form.save()
+            # way2
+            # new_user = form.save(commit=False)
+            # new_user.set_password(form.cleaned_data['password'])
+            # new_user.save()
             return redirect('account:login')
     context = {
         'form': form

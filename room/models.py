@@ -1,5 +1,5 @@
+from django.contrib.auth.models import User
 from django.db import models
-from account.models import Customer
 from django.utils import timezone
 
 
@@ -23,7 +23,7 @@ class Room(models.Model):
 
 
 class Reservation(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='reservation_set')
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reservation')
     room = models.ForeignKey(Room, on_delete=models.DO_NOTHING, related_name='reservation')
     start_date = models.DateField(auto_now=True)
     end_date = models.DateField(default=timezone.now() + timezone.timedelta(days=30))
@@ -31,8 +31,10 @@ class Reservation(models.Model):
     def save(self, *args, **kwargs):
         if self.room.is_available:
             # self.room.reserved_count += 1
-            self.remaining_capacity -= 1
+            self.room.remaining_capacity -= 1
+            self.room.save()
             super().save()
 
     def room_availability(self):
         ...
+
