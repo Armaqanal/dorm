@@ -4,9 +4,9 @@ from django.utils import timezone
 
 
 # Create your models here.
-class RoomManager(models.Manager):
-    def get_available_rooms(self):
-        return self.filter(is_available=True)
+# class RoomManager(models.Manager):
+#     def get_available_rooms(self):
+#         return self.filter(is_available=True)
 
 
 class Room(models.Model):
@@ -47,10 +47,10 @@ class Room(models.Model):
     # def is_available(self):
     #     return self.capacity - self.reserved_count != 0
 
-    def save(self, *args, **kwargs):
-        self.is_available = self.remaining_capacity > 0
-        super(Room, self).save(*args, **kwargs)
-
+    # def save(self, *args, **kwargs):
+    #     self.is_available = self.remaining_capacity > 0
+    #     super(Room, self).save(*args, **kwargs)
+    #
     # TODO: free room capacity
 
 
