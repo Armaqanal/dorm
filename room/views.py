@@ -7,8 +7,8 @@ from room.models import Room, Reservation
 
 
 def available_rooms_view(request):
-    available_rooms = [room for room in Room.objects.all() if room.is_available]
-    # available_rooms = Room.objects.
+    # available_rooms = [room for room in Room.objects.all() if room.is_available]
+    available_rooms = Room.objects.get_available_rooms()
     print("*" * 50, available_rooms)
 
     contex = {

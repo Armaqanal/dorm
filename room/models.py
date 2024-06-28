@@ -3,10 +3,9 @@ from django.db import models
 from django.utils import timezone
 
 
-# Create your models here.
-# class RoomManager(models.Manager):
-#     def get_available_rooms(self):
-#         return self.filter(is_available=True)
+class RoomManager(models.Manager):
+    def get_available_rooms(self):
+        return self.filter(has_capacity=True)
 
 
 class Room(models.Model):
@@ -18,8 +17,8 @@ class Room(models.Model):
     room_number = models.PositiveIntegerField()
 
     # ____________________________(way 2) ___________________________________________
-    # is_available = models.BooleanField(default=True)
-    # objects = RoomManager()
+    has_capacity = models.BooleanField(default=True)
+    objects = RoomManager()
     # ____________________________(way 2) ___________________________________________
 
     # ____________________________(way 1) ___________________________________________
