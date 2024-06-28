@@ -5,5 +5,6 @@ app_name = 'room'
 urlpatterns = [
 
     path('available_rooms/', views.available_rooms_view, name='available_rooms'),
-    path('reservation/<int:room_id>/', views.reservation, name='reservation')
+    path('reservation/<int:room_id>/', views.reservation, name='reservation'),
+    path('add-room', views.add_rooms, name='add-room'),
 ]

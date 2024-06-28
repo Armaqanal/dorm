@@ -5,12 +5,14 @@
         <h5>{{ request.user.username }}</h5>
         <a href="{% url 'account:logout' %}">Logout</a>
         {% if request.user.is_superuser %}
-{#             <a href="{% url 'room:add_rooms' %}">Add Room</a>#}
-            {% else %}
             <div>
-                <a href="{% url 'room:available_rooms' %}">Available Room</a>
+                <a href="{% url 'room:add-room' %}">Add Room</a>
             </div>
+            {#        {% else %}#}
         {% endif %}
+        <div>
+            <a href="{% url 'room:available_rooms' %}">Available Room</a>
+        </div>
     {% else %}
         <div>
             <a href="{% url 'account:register' %}">Register</a>

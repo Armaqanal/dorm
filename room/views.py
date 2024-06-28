@@ -1,14 +1,16 @@
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from .forms import CreateRoomForm
 
 from room.models import Room, Reservation
 
 
-# Create your views here.
-
-
 def available_rooms_view(request):
-    # show_available_room = Room.objects.all()
-    available_rooms = Room.objects.filter(remaining_capacity__gt=0)
+    available_rooms = [room for room in Room.objects.all() if room.is_available]
+    # available_rooms = Room.objects.
+    print("*" * 50, available_rooms)
+
     contex = {
         'available_rooms': available_rooms
     }
@@ -20,8 +22,21 @@ def reservation(request, room_id):
     Reservation.objects.create(room=room, customer=request.user)
     return redirect('account:home')  # TODO
 
-# def add_rooms(request):
-#     if request.user.is_superuser:
-#         if request.method=='POST':
-#             form=
-#         room=Room.objects.create(capacity=capacity,
+
+@login_required
+def add_rooms(request):
+    if request.user.is_superuser:
+        form = CreateRoomForm()
+
+        if request.method == 'POST':
+            form = CreateRoomForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('account:home')
+        context = {
+            'form': form
+        }
+        return render(request, 'room_creation_form.html', context)
+
+    else:
+        return HttpResponse('Your are not the Manager')
